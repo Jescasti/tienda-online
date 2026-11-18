@@ -1,0 +1,44 @@
+/* producto-detalle.page.scss: estilos del detalle de producto */
+
+/* Imagen principal cuadrada sobre fondo gris claro */
+.imagen {
+  width: 100%;
+  max-height: 320px;
+  object-fit: contain;
+  background: #f4f5f8;
+  border-radius: 12px;
+}
+
+h1 {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 16px 0 4px;
+}
+
+.marca {
+  margin: 0;
+  color: var(--ion-color-medium);
+}
+
+.calificacion {
+  margin: 8px 0;
+}
+
+.precio {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--ion-color-primary);
+  margin: 8px 0;
+}
+
+/* Etiqueta del porcentaje de descuento */
+.descuento {
+  font-size: 14px;
+  color: var(--ion-color-success);
+  margin-left: 8px;
+}
+
+.centrado {
+  text-align: center;
+  padding: 32px;
+}

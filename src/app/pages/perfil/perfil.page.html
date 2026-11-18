@@ -1,0 +1,46 @@
+<!-- perfil.page.html: datos del usuario e historial de pedidos -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Mi perfil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Datos del usuario autenticado -->
+  @if (auth.usuario(); as u) {
+    <div class="usuario">
+      <ion-avatar>
+        <img [src]="u.image" [alt]="u.firstName" />
+      </ion-avatar>
+      <h2>{{ u.firstName }} {{ u.lastName }}</h2>
+      <p>{{ u.email }}</p>
+      <p class="usuario-nombre">&#64;{{ u.username }}</p>
+    </div>
+  }
+
+  <!-- Historial de pedidos guardado en el almacenamiento local -->
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Mis pedidos</ion-label>
+    </ion-list-header>
+    @for (pedido of carrito.pedidos(); track pedido.fecha) {
+      <ion-item>
+        <ion-icon slot="start" name="receipt-outline" color="primary"></ion-icon>
+        <ion-label>
+          <h3>Pedido #{{ pedido.id }}</h3>
+          <p>{{ pedido.fecha | date: 'dd/MM/yyyy HH:mm' }} · {{ pedido.items.length }} productos</p>
+        </ion-label>
+        <ion-note slot="end">{{ pedido.total | currency: 'USD' }}</ion-note>
+      </ion-item>
+    } @empty {
+      <ion-item>
+        <ion-label color="medium">Aún no ha realizado pedidos.</ion-label>
+      </ion-item>
+    }
+  </ion-list>
+
+  <!-- Botón para cerrar la sesión -->
+  <ion-button expand="block" color="danger" fill="outline" class="ion-margin" (click)="cerrarSesion()">
+    <ion-icon slot="start" name="log-out-outline"></ion-icon> Cerrar sesión
+  </ion-button>
+</ion-content>

@@ -1,0 +1,39 @@
+/* carrito.page.scss: estilos del carrito de compras */
+
+/* Mensaje de carrito vacío centrado */
+.vacio {
+  text-align: center;
+  padding: 64px 16px;
+  color: var(--ion-color-medium);
+
+  ion-icon {
+    font-size: 64px;
+  }
+}
+
+/* Botones de restar/sumar con la cantidad en el centro */
+.cantidad {
+  display: flex;
+  align-items: center;
+
+  span {
+    min-width: 24px;
+    text-align: center;
+    font-weight: 600;
+  }
+}
+
+/* Subtotal y botón eliminar alineados a la derecha */
+.subtotal {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Fila del total en el pie de página */
+.total {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 16px 0;
+  font-size: 18px;
+}

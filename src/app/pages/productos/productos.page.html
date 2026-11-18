@@ -1,0 +1,71 @@
+<!-- productos.page.html: catálogo de productos -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Tienda Online</ion-title>
+  </ion-toolbar>
+  <!-- Buscador: debounce espera 500 ms después de escribir para consultar la API -->
+  <ion-toolbar>
+    <ion-searchbar placeholder="Buscar productos" [debounce]="500" (ionInput)="buscar($event)"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <!-- Deslizar hacia abajo para recargar -->
+  <ion-refresher slot="fixed" (ionRefresh)="refrescar($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <!-- Aviso cuando el dispositivo no tiene internet -->
+  @if (!red.enLinea()) {
+    <div class="sin-conexion">
+      <ion-icon name="cloud-offline-outline"></ion-icon> Sin conexión a internet
+    </div>
+  }
+
+  <!-- Filtros por categoría -->
+  <div class="categorias">
+    <ion-chip [outline]="categoriaActual() !== ''" color="primary" (click)="filtrar('')">
+      <ion-label>Todas</ion-label>
+    </ion-chip>
+    @for (categoria of categorias(); track categoria.slug) {
+      <ion-chip [outline]="categoriaActual() !== categoria.slug" color="primary" (click)="filtrar(categoria.slug)">
+        <ion-label>{{ categoria.name }}</ion-label>
+      </ion-chip>
+    }
+  </div>
+
+  @if (cargando()) {
+    <!-- Indicador de carga mientras responde la API -->
+    <div class="centrado"><ion-spinner name="crescent"></ion-spinner></div>
+  } @else if (error()) {
+    <!-- Mensaje de error con opción de reintentar -->
+    <div class="centrado">
+      <ion-text color="danger"><p>{{ error() }}</p></ion-text>
+      <ion-button fill="outline" (click)="cargarProductos()">Reintentar</ion-button>
+    </div>
+  } @else {
+    <!-- Cuadrícula de productos: 2 columnas en celular, 3 o 4 en pantallas grandes -->
+    <ion-grid>
+      <ion-row>
+        @for (producto of productos(); track producto.id) {
+          <ion-col size="6" size-md="4" size-lg="3">
+            <ion-card class="producto">
+              <!-- Al tocar la imagen o el nombre se abre el detalle -->
+              <img [src]="producto.thumbnail" [alt]="producto.title" loading="lazy" [routerLink]="['/tabs/productos', producto.id]" />
+              <ion-card-content>
+                <h3 [routerLink]="['/tabs/productos', producto.id]">{{ producto.title }}</h3>
+                <p class="calificacion"><ion-icon name="star" color="warning"></ion-icon> {{ producto.rating }}</p>
+                <p class="precio">{{ producto.price | currency: 'USD' }}</p>
+                <ion-button size="small" expand="block" (click)="agregar(producto)">
+                  <ion-icon slot="start" name="cart-outline"></ion-icon> Agregar
+                </ion-button>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        } @empty {
+          <div class="centrado"><p>No se encontraron productos.</p></div>
+        }
+      </ion-row>
+    </ion-grid>
+  }
+</ion-content>

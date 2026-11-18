@@ -1,2 +1,30 @@
-// For information on how to create your own theme, please refer to:
-// https://ionicframework.com/docs/theming/
+/**
+ * variables.scss
+ * Tema de colores de la Tienda Online. Ionic usa variables CSS para sus colores:
+ * al cambiar --ion-color-primary y sus variantes, toda la app (barras, botones,
+ * chips y pestañas) toma el nuevo color.
+ * Documentación: https://ionicframework.com/docs/theming/colors
+ */
+
+/* Modo claro: color primario vinotinto */
+:root {
+  --ion-color-primary: #9b1c3a; /* color base */
+  --ion-color-primary-rgb: 155, 28, 58; /* el mismo color en formato RGB */
+  --ion-color-primary-contrast: #ffffff; /* color del texto sobre el primario */
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #881933; /* versión más oscura (al presionar) */
+  --ion-color-primary-tint: #a5334e; /* versión más clara (al pasar el cursor) */
+}
+
+/* Modo oscuro (cuando el sistema está en tema oscuro): vinotinto más claro para
+   que se lea bien sobre el fondo negro, con texto negro encima. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ion-color-primary: #e0577a;
+    --ion-color-primary-rgb: 224, 87, 122;
+    --ion-color-primary-contrast: #000000;
+    --ion-color-primary-contrast-rgb: 0, 0, 0;
+    --ion-color-primary-shade: #c54d6b;
+    --ion-color-primary-tint: #e36887;
+  }
+}

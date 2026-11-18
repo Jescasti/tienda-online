@@ -1,0 +1,35 @@
+<!-- producto-detalle.page.html: información completa de un producto -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <!-- Botón para volver al catálogo -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/productos" text="Atrás"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalle</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  @if (producto(); as p) {
+    <img class="imagen" [src]="p.images[0] || p.thumbnail" [alt]="p.title" />
+    <h1>{{ p.title }}</h1>
+    @if (p.brand) {
+      <p class="marca">{{ p.brand }}</p>
+    }
+    <p class="calificacion"><ion-icon name="star" color="warning"></ion-icon> {{ p.rating }} · {{ p.stock }} disponibles</p>
+    <p class="precio">
+      {{ p.price | currency: 'USD' }}
+      <span class="descuento">-{{ p.discountPercentage }} %</span>
+    </p>
+    <p>{{ p.description }}</p>
+
+    <!-- Si no hay unidades disponibles, el botón se deshabilita -->
+    <ion-button expand="block" [disabled]="p.stock === 0" (click)="agregar()">
+      <ion-icon slot="start" name="cart-outline"></ion-icon> Agregar al carrito
+    </ion-button>
+  } @else if (error()) {
+    <ion-text color="danger"><p>{{ error() }}</p></ion-text>
+  } @else {
+    <div class="centrado"><ion-spinner name="crescent"></ion-spinner></div>
+  }
+</ion-content>

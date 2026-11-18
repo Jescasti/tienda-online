@@ -1,0 +1,50 @@
+<!-- login.page.html: formulario de inicio de sesión -->
+<ion-content class="ion-padding">
+  <div class="contenedor">
+    <!-- Logo y nombre de la tienda -->
+    <ion-icon name="storefront" color="primary" class="logo"></ion-icon>
+    <h1>Tienda Online</h1>
+    <p class="subtitulo">Inicie sesión para comprar</p>
+
+    <!-- Formulario: (ngSubmit) se ejecuta al presionar Ingresar o Enter -->
+    <form (ngSubmit)="ingresar()">
+      <ion-input
+        label="Usuario"
+        labelPlacement="floating"
+        fill="outline"
+        name="usuario"
+        autocomplete="username"
+        [(ngModel)]="usuario"
+      ></ion-input>
+
+      <ion-input
+        label="Contraseña"
+        labelPlacement="floating"
+        fill="outline"
+        type="password"
+        name="clave"
+        autocomplete="current-password"
+        [(ngModel)]="clave"
+      >
+        <!-- Botón para mostrar u ocultar la contraseña -->
+        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+      </ion-input>
+
+      <!-- Mensaje de error de validación o de la API -->
+      @if (error()) {
+        <ion-text color="danger"><p class="error">{{ error() }}</p></ion-text>
+      }
+
+      <ion-button expand="block" type="submit" [disabled]="cargando()">
+        @if (cargando()) {
+          <ion-spinner name="crescent"></ion-spinner>
+        } @else {
+          Ingresar
+        }
+      </ion-button>
+    </form>
+
+    <!-- Credenciales de prueba de la API DummyJSON -->
+    <ion-note class="ayuda">Usuario de prueba: <b>emilys</b> · Contraseña: <b>emilyspass</b></ion-note>
+  </div>
+</ion-content>

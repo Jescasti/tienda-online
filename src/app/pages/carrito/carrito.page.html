@@ -1,0 +1,84 @@
+<!-- carrito.page.html: productos agregados y total del pedido -->
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Carrito</ion-title>
+    <!-- Botón para vaciar el carrito (solo si tiene productos) -->
+    @if (carrito.items().length > 0) {
+      <ion-buttons slot="end">
+        <ion-button (click)="vaciar()" aria-label="Vaciar carrito">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    }
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  @if (carrito.items().length === 0) {
+    <!-- Carrito vacío -->
+    <div class="vacio">
+      <ion-icon name="cart-outline"></ion-icon>
+      <p>Su carrito está vacío.</p>
+      <ion-button routerLink="/tabs/productos">Ver productos</ion-button>
+    </div>
+  } @else {
+    <ion-list>
+      @for (item of carrito.items(); track item.producto.id) {
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <img [src]="item.producto.thumbnail" [alt]="item.producto.title" />
+          </ion-thumbnail>
+          <ion-label>
+            <h3>{{ item.producto.title }}</h3>
+            <p>{{ item.producto.price | currency: 'USD' }} c/u</p>
+            <!-- Controles de cantidad -->
+            <div class="cantidad">
+              <ion-button fill="clear" size="small" (click)="carrito.cambiarCantidad(item.producto.id, -1)" aria-label="Restar">
+                <ion-icon slot="icon-only" name="remove-circle-outline"></ion-icon>
+              </ion-button>
+              <span>{{ item.cantidad }}</span>
+              <ion-button
+                fill="clear"
+                size="small"
+                [disabled]="item.cantidad >= item.producto.stock"
+                (click)="carrito.cambiarCantidad(item.producto.id, 1)"
+                aria-label="Sumar"
+              >
+                <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+              </ion-button>
+            </div>
+          </ion-label>
+          <!-- Subtotal y botón eliminar -->
+          <div slot="end" class="subtotal">
+            <strong>{{ item.producto.price * item.cantidad | currency: 'USD' }}</strong>
+            <ion-button fill="clear" color="danger" size="small" (click)="carrito.eliminar(item.producto.id)" aria-label="Eliminar">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </div>
+        </ion-item>
+      }
+    </ion-list>
+  }
+</ion-content>
+
+<!-- Pie con el total y el botón para confirmar el pedido -->
+@if (carrito.items().length > 0) {
+  <ion-footer>
+    <ion-toolbar>
+      <div class="total">
+        <span>Total ({{ carrito.cantidadTotal() }} unidades)</span>
+        <strong>{{ carrito.total() | currency: 'USD' }}</strong>
+      </div>
+      <!-- Sin internet no se puede enviar el pedido -->
+      <ion-button expand="block" class="ion-margin" [disabled]="enviando() || !red.enLinea()" (click)="confirmar()">
+        @if (enviando()) {
+          <ion-spinner name="crescent"></ion-spinner>
+        } @else if (!red.enLinea()) {
+          Sin conexión
+        } @else {
+          Confirmar pedido
+        }
+      </ion-button>
+    </ion-toolbar>
+  </ion-footer>
+}

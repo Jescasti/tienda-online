@@ -1,0 +1,76 @@
+/* productos.page.scss: estilos del catálogo */
+
+/* Filtros de categoría en una fila con desplazamiento horizontal */
+.categorias {
+  display: flex;
+  overflow-x: auto;
+  padding: 8px 8px 0;
+  white-space: nowrap;
+
+  /* Los chips conservan su ancho completo (no se recortan los nombres) */
+  ion-chip {
+    flex-shrink: 0;
+  }
+}
+
+/* Tarjeta de producto */
+.producto {
+  margin: 4px;
+  height: calc(100% - 8px);
+  display: flex;
+  flex-direction: column;
+
+  img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    background: #f4f5f8;
+  }
+
+  ion-card-content {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  /* Nombre del producto en máximo dos líneas */
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .calificacion {
+    font-size: 12px;
+    margin: 0;
+  }
+
+  .precio {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ion-color-primary);
+    margin: 4px 0 8px;
+    flex: 1;
+  }
+}
+
+/* Mensajes centrados (carga, error, lista vacía) */
+.centrado {
+  width: 100%;
+  text-align: center;
+  padding: 32px 16px;
+}
+
+/* Barra de aviso sin conexión */
+.sin-conexion {
+  background: var(--ion-color-warning);
+  color: #000;
+  text-align: center;
+  padding: 8px;
+  font-size: 14px;
+}

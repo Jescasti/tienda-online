@@ -1,18 +1,25 @@
+<!-- tabs.page.html: barra de pestañas inferior de la tienda -->
 <ion-tabs>
   <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="tab1" href="/tabs/tab1">
-      <ion-icon aria-hidden="true" name="triangle"></ion-icon>
-      <ion-label>Tab 1</ion-label>
+    <!-- Pestaña 1: catálogo de productos -->
+    <ion-tab-button tab="productos" href="/tabs/productos">
+      <ion-icon aria-hidden="true" name="storefront"></ion-icon>
+      <ion-label>Productos</ion-label>
     </ion-tab-button>
 
-    <ion-tab-button tab="tab2" href="/tabs/tab2">
-      <ion-icon aria-hidden="true" name="ellipse"></ion-icon>
-      <ion-label>Tab 2</ion-label>
+    <!-- Pestaña 2: carrito, con contador de unidades -->
+    <ion-tab-button tab="carrito" href="/tabs/carrito">
+      <ion-icon aria-hidden="true" name="cart"></ion-icon>
+      <ion-label>Carrito</ion-label>
+           @if (carrito.cantidadTotal() > 0) {
+        <ion-badge color="danger">{{ carrito.cantidadTotal() }}</ion-badge>
+      }
     </ion-tab-button>
 
-    <ion-tab-button tab="tab3" href="/tabs/tab3">
-      <ion-icon aria-hidden="true" name="square"></ion-icon>
-      <ion-label>Tab 3</ion-label>
+    <!-- Pestaña 3: perfil del usuario -->
+    <ion-tab-button tab="perfil" href="/tabs/perfil">
+      <ion-icon aria-hidden="true" name="person"></ion-icon>
+      <ion-label>Perfil</ion-label>
     </ion-tab-button>
   </ion-tab-bar>
 </ion-tabs>
